@@ -15,7 +15,7 @@
 		882E7E441F556631005D9398 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 882E7E421F556631005D9398 /* LaunchScreen.storyboard */; };
 		882E7E4F1F556631005D9398 /* InnerArrayDemoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 882E7E4E1F556631005D9398 /* InnerArrayDemoTests.m */; };
 		882E7E5A1F556631005D9398 /* InnerArrayDemoUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 882E7E591F556631005D9398 /* InnerArrayDemoUITests.m */; };
-		882E7E6A1F55665B005D9398 /* InnerArray.m in Sources */ = {isa = PBXBuildFile; fileRef = 882E7E691F55665B005D9398 /* InnerArray.m */; };
+		882E7E6A1F55665B005D9398 /* InlineArray.m in Sources */ = {isa = PBXBuildFile; fileRef = 882E7E691F55665B005D9398 /* InlineArray.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -52,8 +52,8 @@
 		882E7E551F556631005D9398 /* InnerArrayDemoUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = InnerArrayDemoUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		882E7E591F556631005D9398 /* InnerArrayDemoUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = InnerArrayDemoUITests.m; sourceTree = "<group>"; };
 		882E7E5B1F556631005D9398 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		882E7E681F55665B005D9398 /* InnerArray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InnerArray.h; sourceTree = "<group>"; };
-		882E7E691F55665B005D9398 /* InnerArray.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InnerArray.m; sourceTree = "<group>"; };
+		882E7E681F55665B005D9398 /* InlineArray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InlineArray.h; sourceTree = "<group>"; };
+		882E7E691F55665B005D9398 /* InlineArray.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InlineArray.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -147,8 +147,8 @@
 		882E7E671F556649005D9398 /* InnerArray */ = {
 			isa = PBXGroup;
 			children = (
-				882E7E681F55665B005D9398 /* InnerArray.h */,
-				882E7E691F55665B005D9398 /* InnerArray.m */,
+				882E7E681F55665B005D9398 /* InlineArray.h */,
+				882E7E691F55665B005D9398 /* InlineArray.m */,
 			);
 			path = InnerArray;
 			sourceTree = "<group>";
@@ -288,7 +288,7 @@
 			files = (
 				882E7E3C1F556631005D9398 /* ViewController.m in Sources */,
 				882E7E391F556631005D9398 /* AppDelegate.m in Sources */,
-				882E7E6A1F55665B005D9398 /* InnerArray.m in Sources */,
+				882E7E6A1F55665B005D9398 /* InlineArray.m in Sources */,
 				882E7E361F556631005D9398 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -521,6 +521,7 @@
 				882E7E601F556631005D9398 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		882E7E611F556631005D9398 /* Build configuration list for PBXNativeTarget "InnerArrayDemoTests" */ = {
 			isa = XCConfigurationList;
@@ -529,6 +530,7 @@
 				882E7E631F556631005D9398 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		882E7E641F556631005D9398 /* Build configuration list for PBXNativeTarget "InnerArrayDemoUITests" */ = {
 			isa = XCConfigurationList;
@@ -537,6 +539,7 @@
 				882E7E661F556631005D9398 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
