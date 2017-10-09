@@ -34,7 +34,7 @@ static Boolean inlineArrayObjectEqualCallback(const void *obj1,const void *obj2)
 }
 
 - (NSInteger)count {
-    return CFArrayGetCount(self.privateArray) + INLINECOUNT;
+    return CFArrayGetCount(self.privateArray) + _currentInlineCount;
 }
 
 - (CFMutableArrayRef)privateArray {
@@ -45,18 +45,35 @@ static Boolean inlineArrayObjectEqualCallback(const void *obj1,const void *obj2)
     return _privateArray;
 }
 
+- (void)addObject:(id)obj {
+    [self insertObject:obj atIndex:self.count];
+}
+
 - (void)addObjectsFromArray:(NSArray *)arr {
     [arr enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         [self addObject:obj];
     }];
 }
 
-- (void)addObject:(id)obj {
+- (void)prependObject:(id)obj {
+    [self insertObject:obj atIndex:0];
+}
+
+- (void)insertObject:(id)obj atIndex:(NSInteger)idx {
     NSParameterAssert(obj);
     if (_currentInlineCount < INLINECOUNT) {
         _inlineArray[_currentInlineCount] = obj;
-    }else
-        CFArrayAppendValue(self.privateArray, (__bridge const void *)(obj));
+        _currentInlineCount ++ ;
+    }else if (idx < INLINECOUNT) {
+        
+    } else {
+        if (idx >= self.count) {
+            CFArrayAppendValue(self.privateArray, (__bridge const void *)(obj));
+        }else {
+            CFArrayInsertValueAtIndex(self.privateArray, idx-INLINECOUNT, (__bridge const void *)(obj));
+        }
+    }
+    
 }
 
 @end
