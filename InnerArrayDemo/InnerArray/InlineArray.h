@@ -22,11 +22,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)addObjectsFromArray:(nullable NSArray *)arr;
 
-- (nullable ObjectType)objectAtIndex:(NSInteger)idx;
+- (nullable ObjectType)objectAtIndex:(NSUInteger)idx;
 
-- (void)insertObject:(ObjectType)obj atIndex:(NSInteger)idx;
+- (void)insertObject:(ObjectType)obj atIndex:(NSUInteger)idx;
 
-- (void)removeObjectAtIndex:(NSInteger)idx;
+- (void)removeObjectAtIndex:(NSUInteger)idx;
 
 - (void)removeAllObjects;
 

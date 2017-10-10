@@ -33,16 +33,17 @@ static Boolean inlineArrayObjectEqualCallback(const void *obj1,const void *obj2)
     return [self new];
 }
 
-- (NSInteger)count {
-    return CFArrayGetCount(self.privateArray) + _currentInlineCount;
-}
-
-- (CFMutableArrayRef)privateArray {
-    if (!_privateArray) {
+- (instancetype)init {
+    self = [super init];
+    if (self) {
         CFArrayCallBacks callbacks = {0,0,0,0,&inlineArrayObjectEqualCallback};
         _privateArray = CFArrayCreateMutable(CFAllocatorGetDefault(), 0, &callbacks);
     }
-    return _privateArray;
+    return self;
+}
+
+- (NSInteger)count {
+    return CFArrayGetCount(self.privateArray) + _currentInlineCount;
 }
 
 - (void)addObject:(id)obj {
@@ -59,13 +60,20 @@ static Boolean inlineArrayObjectEqualCallback(const void *obj1,const void *obj2)
     [self insertObject:obj atIndex:0];
 }
 
-- (void)insertObject:(id)obj atIndex:(NSInteger)idx {
+- (void)insertObject:(id)obj atIndex:(NSUInteger)idx {
     NSParameterAssert(obj);
     if (_currentInlineCount < INLINECOUNT) {
         _inlineArray[_currentInlineCount] = obj;
         _currentInlineCount ++ ;
     }else if (idx < INLINECOUNT) {
-        
+        id last_obj = _inlineArray[INLINECOUNT-1];
+        NSInteger i = INLINECOUNT - 2;
+        while (i >= idx) {
+            _inlineArray[i + 1] = _inlineArray[i];
+            i--;
+        }
+        CFArrayInsertValueAtIndex(self.privateArray, 0, (__bridge const void *)(last_obj));
+        _inlineArray[idx] = obj;
     } else {
         if (idx >= self.count) {
             CFArrayAppendValue(self.privateArray, (__bridge const void *)(obj));
@@ -73,7 +81,45 @@ static Boolean inlineArrayObjectEqualCallback(const void *obj1,const void *obj2)
             CFArrayInsertValueAtIndex(self.privateArray, idx-INLINECOUNT, (__bridge const void *)(obj));
         }
     }
-    
+}
+
+- (void)removeObjectAtIndex:(NSUInteger)idx {
+    if (_currentInlineCount < INLINECOUNT) {
+        while (idx < _currentInlineCount) {
+            _inlineArray[idx] = _inlineArray[idx + 1];
+            idx ++;
+        }
+        _currentInlineCount --;
+    }else {
+        if (idx < INLINECOUNT) {
+            while (idx < INLINECOUNT - 1) {
+                _inlineArray[idx] = _inlineArray[idx + 1];
+                idx ++ ;
+            }
+            const void *value = CFArrayGetValueAtIndex(self.privateArray, 0);
+            _inlineArray[INLINECOUNT - 1] = (__bridge id)(value);
+            CFArrayRemoveValueAtIndex(self.privateArray, 0);
+        }else {
+            CFArrayRemoveValueAtIndex(self.privateArray, idx - INLINECOUNT);
+        }
+    }
+}
+
+- (void)removeAllObjects {
+    while (_currentInlineCount) {
+        _currentInlineCount --;
+        _inlineArray[_currentInlineCount] = nil;
+    }
+    CFArrayRemoveAllValues(self.privateArray);
+}
+
+- (id)objectAtIndex:(NSUInteger)idx {
+    return idx < INLINECOUNT ? _inlineArray[idx] : (__bridge id)CFArrayGetValueAtIndex(self.privateArray, INLINECOUNT - idx);
+}
+
+- (void)dealloc {
+    CFRelease(self.privateArray);
+    self.privateArray = NULL;
 }
 
 @end

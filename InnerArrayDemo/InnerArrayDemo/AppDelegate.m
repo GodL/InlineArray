@@ -7,6 +7,7 @@
 //
 
 #import "AppDelegate.h"
+#import "InlineArray.h"
 
 @interface AppDelegate ()
 
@@ -15,6 +16,67 @@
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    
+    NSMutableArray *nsArray = [NSMutableArray array];
+    InlineArray *inlineArray = [InlineArray array];
+    NSInteger count = 20;
+    NSData *value = nil;
+    NSTimeInterval begin, end, time;
+    
+//    for (int i = 0; i < count; i++) {
+//        NSObject *key;
+//        key = @(i); // avoid string compare
+//        //key = @(i).description; // it will slow down NSCache...
+//        //key = [NSUUID UUID].UUIDString;
+//        NSData *value = [NSData dataWithBytes:&i length:sizeof(int)];
+//        [keys addObject:key];
+//        [values addObject:value];
+//    }
+    begin = CACurrentMediaTime();
+    @autoreleasepool {
+        for (int i = 0; i < count; i++) {
+            [nsArray addObject:@""];
+        }
+    }
+    end = CACurrentMediaTime();
+    time = end - begin;
+    printf("NSArray:   %8.2f\n", time * 1000000);
+    
+    begin = CACurrentMediaTime();
+    @autoreleasepool {
+        for (int i = 0; i < count; i++) {
+            [inlineArray addObject:@""];
+        }
+    }
+    end = CACurrentMediaTime();
+    time = end - begin;
+    printf("inlineAray:    %8.2f\n", time * 1000000);
+
+    begin = CACurrentMediaTime();
+    @autoreleasepool {
+        for (int j=0; j<100; j++) {
+            for (int i = 0; i < count; i++) {
+                [nsArray objectAtIndex:i];
+            }
+        }
+    }
+    end = CACurrentMediaTime();
+    time = end - begin;
+    printf("NSArray:   %8.2f\n", time * 1000000);
+    
+    
+    begin = CACurrentMediaTime();
+    @autoreleasepool {
+        for (int j=0; j<100; j++) {
+            for (int i = 0; i < count; i++) {
+                [inlineArray objectAtIndex:i];
+            }
+        }
+       
+    }
+    end = CACurrentMediaTime();
+    time = end - begin;
+    printf("inlinearray:   %8.2f\n", time * 1000000);
     // Override point for customization after application launch.
     return YES;
 }
